@@ -59,7 +59,7 @@ def main():
     parser.add_argument('-p', '--password', help="Contraseña del usuario de la base de datos")
     arg = parser.parse_args()
 
-    if not arg.user and arg.password:
+    if not (arg.user and arg.password):
         print("Necesito un usuario y contraseña")
         sys.exit(-1)
 
