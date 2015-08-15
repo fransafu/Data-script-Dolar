@@ -2,7 +2,6 @@
 # -*- coding: utf-8
 
 import os
-import sys
 import xml.etree.ElementTree as ET
 
 
@@ -31,5 +30,5 @@ def listaArchivos():
             (nombreFichero, extension) = os.path.splitext(fichero)
             if(extension == ".xml"):
                 listaArchivo.append(nombreFichero+extension)
-
+    
     return listaArchivo
