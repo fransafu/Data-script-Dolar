@@ -15,5 +15,3 @@ def cargar_archivo(archivo):
                           'valor': valor})
 
     return resultado
-
-print(cargar_archivo(sys.argv[1]))
