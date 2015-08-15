@@ -2,7 +2,9 @@
 # -*- coding: utf-8
 
 import os
-import json
+import sys
+import argparse
+import pymysql.cursors
 import xml.etree.ElementTree as ET
 
 
@@ -38,15 +40,39 @@ def listaArchivos():
 
 def crear_archivo(nombre, datos):
     with open(nombre, 'w') as salida:
-        salida.write('{}\n'.format(json.dumps(datos)))
+        salida.write('{}\n'.format(datos))
+
+ 
+def cargar_datos_db(db, datos):
+    with db.cursor() as cursor:
+        for daton in datos:
+            fecha = datos['fecha']
+            valor = datos['valor']
+            sql = 'INSERT INTO `dias` (`fecha`, `valor`) VALUES (%s, %s)'
+            cursor.execute(sql, fecha, valor)
+            db.commit()
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-u', '--user', help="Nombre del usuario de la base de datos")
+    parser.add_argument('-p', '--password', help="Contraseña del usuario de la base de datos")
+    arg = parser.parse_args()
+
+    if not arg.user and arg.password:
+        print("Necesito un usuario y contraseña")
+        sys.exit(-1)
+
+    connection = pymysql.connect(host='localhost',
+                                 user=arg.user,
+                                 password=arg.password,
+                                 db='dollar')
+    
     lista = listaArchivos()
     for archivo in lista:
-        (nombre, _) = os.path.splitext(archivo)
-        crear_archivo(nombre + '.txt', cargar_archivo('Data_xml/' + archivo))
+        datos = cargar_archivo('Data_xml/' + archivo)
+        cargar_datos_db(datos, connection)
 
 
 if __name__ == '__main__':
-    main()
+        main()
