@@ -42,13 +42,13 @@ def crear_archivo(nombre, datos):
     with open(nombre, 'w') as salida:
         salida.write('{}\n'.format(datos))
 
- 
+
 def cargar_datos_db(db, datos):
     with db.cursor() as cursor:
         for daton in datos:
             fecha = datos['fecha']
             valor = datos['valor']
-            sql = 'INSERT INTO `dias` (`fecha`, `valor`) VALUES (%s, %s)'
+            sql = 'INSERT INTO `dolar` (`fecha`, `precio`) VALUES (%s, %s)'
             cursor.execute(sql, fecha, valor)
             db.commit()
 
