@@ -19,6 +19,7 @@ def cargar_archivo(archivo):
 
     return resultado
 
+
 def listaArchivos():
     path = os.getcwd() + '/Data_xml'
     listaArchivo = []
@@ -33,11 +34,19 @@ def listaArchivos():
     
     return listaArchivo
 
+
+def crear_archivo(nombre, datos):
+    with open(nombre, 'w') as salida:
+        for d in datos:
+            salida.write('{} {}\n'.format(d['fecha'], d['valor']))
+
+
 def main():
     lista = listaArchivos()
     for archivo in lista:
-        for dato in cargar_archivo('Data_xml/' + archivo):
-            print dato
+        (nombre, _) = os.path.splitext(archivo)
+        crear_archivo(nombre, cargar_archivo('Data_xml/' + archivo))
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     main()
