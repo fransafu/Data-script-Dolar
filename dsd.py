@@ -32,3 +32,12 @@ def listaArchivos():
                 listaArchivo.append(nombreFichero+extension)
     
     return listaArchivo
+
+def main():
+    lista = listaArchivos()
+    for archivo in lista:
+        for dato in cargar_archivo('Data_xml/' + archivo):
+            print dato
+
+if __name__ == "__main__":
+    main()
