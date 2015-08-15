@@ -45,11 +45,11 @@ def crear_archivo(nombre, datos):
 
 def cargar_datos_db(db, datos):
     with db.cursor() as cursor:
-        for daton in datos:
-            fecha = datos['fecha']
-            valor = datos['valor']
+        for dato in datos:
+            fecha = dato['fecha']
+            valor = dato['valor']
             sql = 'INSERT INTO `dolar` (`fecha`, `precio`) VALUES (%s, %s)'
-            cursor.execute(sql, fecha, valor)
+            cursor.execute(sql, (fecha, valor))
             db.commit()
 
 
@@ -71,7 +71,7 @@ def main():
     lista = listaArchivos()
     for archivo in lista:
         datos = cargar_archivo('Data_xml/' + archivo)
-        cargar_datos_db(datos, connection)
+        cargar_datos_db(connection, datos)
 
 
 if __name__ == '__main__':
