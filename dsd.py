@@ -38,14 +38,14 @@ def listaArchivos():
 def crear_archivo(nombre, datos):
     with open(nombre, 'w') as salida:
         for d in datos:
-            salida.write('{} {}\n'.format(d['fecha'], d['valor']))
+            salida.write('{}#{}\n'.format(d['fecha'], d['valor']))
 
 
 def main():
     lista = listaArchivos()
     for archivo in lista:
         (nombre, _) = os.path.splitext(archivo)
-        crear_archivo(nombre, cargar_archivo('Data_xml/' + archivo))
+        crear_archivo(nombre + '.txt', cargar_archivo('Data_xml/' + archivo))
 
 
 if __name__ == '__main__':
