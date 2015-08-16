@@ -2,6 +2,7 @@
 # -*- coding: utf-8
 
 import os
+import json
 import xml.etree.ElementTree as ET
 
 
@@ -37,8 +38,7 @@ def listaArchivos():
 
 def crear_archivo(nombre, datos):
     with open(nombre, 'w') as salida:
-        for d in datos:
-            salida.write('{}#{}\n'.format(d['fecha'], d['valor']))
+        salida.write('{}\n'.format(json.dumps(datos)))
 
 
 def main():
