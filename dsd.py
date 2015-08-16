@@ -65,7 +65,7 @@ def main():
     connection = pymysql.connect(host='localhost',
                                  user=arg.user,
                                  password=arg.password,
-                                 db='Monedas')
+                                 db='Divisas')
 
     lista = listaArchivos()
     for archivo in lista:

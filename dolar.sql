@@ -1,10 +1,10 @@
-drop database if exists Monedas;
+drop database if exists Divisas;
 
--- No se que nombre ponerle :P
-create database Monedas;
-use Monedas;
+create database Divisas;
+
+use Divisas;
 
 create table Dolar
-( idDollar int not null auto_increment primary key,
+( idDolar int not null auto_increment primary key,
   Fecha date,
   Valor varchar(16) );
