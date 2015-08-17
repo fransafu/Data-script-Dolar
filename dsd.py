@@ -20,7 +20,6 @@ def cargar_archivo(archivo):
 
 def listar_archivos():
     path = os.getcwd() + '/Data_xml'
-    lista_archivo = []
     # Lista ficheros
     lista_directorio = os.walk(path)
 
@@ -29,9 +28,7 @@ def listar_archivos():
         for fichero in files:
             (nombre_fichero, extension) = os.path.splitext(fichero)
             if(extension == ".xml"):
-                lista_archivo.append(nombre_fichero+extension)
-
-    return lista_archivo
+                yield nombre_fichero + extension
 
 
 def cargar_datos_db(db, datos):
