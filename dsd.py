@@ -18,20 +18,20 @@ def cargar_archivo(archivo):
                'valor': dolar.find('src:Valor', ns).text}
 
 
-def listaArchivos():
+def listar_archivos():
     path = os.getcwd() + '/Data_xml'
-    listaArchivo = []
+    lista_archivo = []
     # Lista ficheros
-    listaDirectorio = os.walk(path)
+    lista_directorio = os.walk(path)
 
     # Crea lista con los archivos encontrados en la carpeta Data_xml
-    for root, dirs, files in listaDirectorio:
+    for root, dirs, files in lista_directorio:
         for fichero in files:
-            (nombreFichero, extension) = os.path.splitext(fichero)
+            (nombre_fichero, extension) = os.path.splitext(fichero)
             if(extension == ".xml"):
-                listaArchivo.append(nombreFichero+extension)
+                lista_archivo.append(nombre_fichero+extension)
 
-    return listaArchivo
+    return lista_archivo
 
 
 def cargar_datos_db(db, datos):
@@ -62,7 +62,7 @@ def main():
                                  password=arg.password,
                                  db='Divisas')
 
-    lista = listaArchivos()
+    lista = listar_archivos()
     for archivo in lista:
         datos = cargar_archivo('Data_xml/' + archivo)
         cargar_datos_db(connection, datos)
