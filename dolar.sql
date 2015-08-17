@@ -6,5 +6,5 @@ use Divisas;
 
 create table Dolar
 ( idDolar int not null auto_increment primary key,
-  Fecha date,
-  Valor float );
+  Fecha date not null,
+  Valor float not null );
