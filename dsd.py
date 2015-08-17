@@ -38,10 +38,10 @@ def cargar_datos_db(db, datos):
     with db.cursor() as cursor:
         for dato in datos:
             fecha = dato['fecha']
-            valor = dato['valor']
+            valor = float(dato['valor'].replace(',', '.'))
             sql = 'INSERT INTO `Dolar` (`Fecha`, `Valor`) VALUES (%s, %s)'
             cursor.execute(sql, (fecha, valor))
-            db.commit()
+        db.commit()
 
 
 def main():
