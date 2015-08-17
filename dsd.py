@@ -13,9 +13,9 @@ def cargar_archivo(archivo):
     arbol = ET.parse(archivo)
     dolares = arbol.findall('src:Dolares', ns)[0].findall('src:Dolar', ns)
 
-    return ({'fecha': d.find('src:Fecha', ns).text,
-             'valor': d.find('src:Valor', ns).text}
-            for d in dolares)
+    for dolar in dolares:
+        yield {'fecha': dolar.find('src:Fecha', ns).text,
+               'valor': dolar.find('src:Valor', ns).text}
 
 
 def listaArchivos():
