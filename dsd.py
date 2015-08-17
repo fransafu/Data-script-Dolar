@@ -34,11 +34,6 @@ def listaArchivos():
     return listaArchivo
 
 
-def crear_archivo(nombre, datos):
-    with open(nombre, 'w') as salida:
-        salida.write('{}\n'.format(datos))
-
-
 def cargar_datos_db(db, datos):
     with db.cursor() as cursor:
         for dato in datos:
