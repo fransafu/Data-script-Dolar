@@ -31,15 +31,47 @@ def listar_archivos():
                 yield nombre_fichero + extension
 
 
-def cargar_datos_db(db, datos):
-    with db.cursor() as cursor:
+# esta clase se encarga de realizar todas las operaciones 
+# relacionadas a la base de datos
+class Db:
+    def __init__(self, connection):
+        self.connection = connection
+
+    # Este metodo recibe una lista de
+    # diccionarios {valor, dato}
+    # y los almacena en la db
+    # actualizando i insertando datos segun corresponda
+    def cargar_datos(self, datos):
         for dato in datos:
             fecha = dato['fecha']
             valor = float(dato['valor'].replace(',', '.'))
-            sql = 'INSERT INTO `Dolar` (`Fecha`, `Valor`) VALUES (%s, %s)'
-            cursor.execute(sql, (fecha, valor))
-        db.commit()
 
+            if len(self.buscar_fecha(fecha)) > 0:
+                self.actualizar_fecha(fecha, valor)
+            else:
+                self.agregar_fecha(fecha, valor)
+                
+    def actualizar_fecha(self, fecha, valor):
+        sql = 'call actualizar_fecha(%s, %s)'
+        with self.connection.cursor() as cursor:
+            cursor.execute(sql, (fecha, valor))
+    
+    def agregar_fecha(self, fecha, valor):
+        sql = 'call agregar_fecha(%s, %s)'
+        with self.connection.cursor() as cursor:
+            cursor.execute(sql, (fecha, valor))
+
+    def buscar_fecha(self, fecha):
+        sql = 'call buscar_fecha(%s)'
+        with self.connection.cursor() as cursor:
+            cursor.execute(sql, (fecha))
+            return cursor.fetchall()
+
+    # hay que llamar a este metodo
+    # para realizar los cambios en la base de datos
+    def commit(self):
+        self.connection.commit()
+        
 
 def main():
     parser = argparse.ArgumentParser()
@@ -50,19 +82,21 @@ def main():
 
     arg = parser.parse_args()
 
-    if not (arg.user and arg.password):
+    if not arg.user:
         print("Necesito un usuario y contraseña")
         sys.exit(-1)
 
     connection = pymysql.connect(host='localhost',
                                  user=arg.user,
-                                 password=arg.password,
+                                 password=arg.password if arg.password else None,
                                  db='Divisas')
 
+    db = Db(connection)
     lista = listar_archivos()
     for archivo in lista:
         datos = cargar_archivo('Data_xml/' + archivo)
-        cargar_datos_db(connection, datos)
+        db.cargar_datos(datos)
+    db.commit()
 
 
 if __name__ == '__main__':
