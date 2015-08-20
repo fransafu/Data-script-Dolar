@@ -82,13 +82,13 @@ def main():
 
     arg = parser.parse_args()
 
-    if not arg.user:
+    if not (arg.user and arg.password):
         print("Necesito un usuario y contraseña")
         sys.exit(-1)
 
     connection = pymysql.connect(host='localhost',
                                  user=arg.user,
-                                 password=arg.password if arg.password else None,
+                                 password=arg.password,
                                  db='Divisas')
 
     db = Db(connection)
